@@ -63,7 +63,7 @@
 \conferenceinfo{KDD'15,}{August 10-13, 2015, Sydney, NSW, Australia.}
 \copyrightetc{\copyright~2015 ACM. ISBN \the\acmcopyr}
 \crdata{978-1-4503-3664-2/15/08\ ...\$15.00.\\
-DOI: http://dx.doi.org/10.1145/FIXME
+DOI: http://dx.doi.org/10.1145/2783258.2789984
 }
 
 \clubpenalty=10000
@@ -93,7 +93,20 @@ Eli Upfal\\
 \maketitle
 
 \begin{abstract}
-	BLA
+	\emph{Rademacher Averages} and the \emph{Vapnik-Chervonenkis dimension} are
+	fundamental concepts from statistical learning theory. They allow to study
+	simultaneous deviation bounds of empirical averages from their expectations
+	for classes of functions, by considering properties of the problem, of the
+	dataset, and of the sampling process. In this tutorial, we survey the use of
+	Rademacher Averages and the VC-dimension in sampling-based algorithms for
+	graph analysis and pattern mining. We start from their theoretical
+	foundations at the core of machine learning, then show a generic recipe for
+	formulating data mining problems in a way that allows using these concepts
+	in the analysis of efficient randomized algorithms for those problems.
+	Finally, we show examples of the application of the recipe to graph problems
+	(connectivity, shortest paths, betweenness centrality) and pattern mining.
+	Our goal is to expose the usefulness of these techniques for the data mining
+	researcher, and to encourage research in the area.
 \end{abstract}
 
 \category{H.2.8}{Database Management}{Database Applications}[Data
@@ -105,18 +118,86 @@ Monte Carlo)]
 Mining; Pattern Mining; Randomized Algorithms; Tutorial}
 
 \section{Introduction}\label{introduction}
-
-\section{Fundamental concepts}\label{sec:fundamentals}
+\emph{Random sampling} is a natural technique to speed up the execution of
+algorithms on very large datasets~\citep{CormodeD14}. The results obtained by
+analyzing only a random sample of the dataset are an approximation of the exact
+solution.  When only a single value must be computed, the trade-off between the
+size of the sample and the accuracy of the approximation can be studied through
+probabilistic bounds (e.g., the Chernoff-Hoeffding
+bounds~\citep{Hoeffding63}) for the deviation of the quantity of interest in
+the sample from its exact value in the dataset. In many classical data mining
+problems, the number of quantities of interest can be extremely large (e.g.,
+betweenness centrality requires to compute one quantity for each node in a
+graph~\citep{Brandes01,RiondatoK14}). In these cases, \emph{uniform} (i.e.,
+\emph{simultaneous}) bounds to the deviations of all quantities are needed.
+Classical techniques like the Union bound~\citep{MitzenmacherU05}, are
+insufficient because excessively loose due to their worst-case assumptions that
+do not hold in many data mining problems. \emph{Rademacher
+Averages}~\citep{BoucheronBL05} and the \emph{Vapnik-Chervonenkis
+dimension}~\citep{Vapnik99} have been developed to overcome this issue: they
+obtain much stricter uniform deviation bounds by taking into account the nature
+of the problem and properties of the dataset and of the sampling process. They
+have been used with success in the analysis of sampling algorithms for data and
+graph analysis problems on very large
+datasets~\citep{RiondatoU14,RiondatoU15,RiondatoK14,RiondatoV14,XXX}.
 
 \section{Outline}\label{sec:outline}
+We start with a short introduction about the use of random sampling in data
+mining, discussing its advantages and the challenges for the algorithm designer.
+The goal is to lay forward the key questions that will be answered in the rest
+of the tutorial. In particular, we introduce the key problem of learning, known
+as the Glivenko-Cantelli problem for classes of functions, and then show the
+limitations of the Union bound in solving this problem and ask how to overcome
+them in the settings arising from using sampling for data mining problems.
+
+\medskip
+The theoretical foundations are presented in the first part, where we introduce
+the Rademacher Average and the VC-dimension, showing how they allow to answer
+the questions posed in the introduction, and how they are related to each other.
+We then focus on computing, estimating, and bounding these quantities, which is
+a key step in the process of using them to develop algorithms. We show a number
+of basic examples of classes of functions with finite and infinite VC-dimension
+and discuss different techniques for developing analytical bounds and empirical
+estimations. The examples will range from toy examples to understand the
+concepts (e.g., axis-aligned rectangles, half-spaces, and sinusoidal functions)
+to much more complex examples that are presented in research papers (e.g.,
+graph neighborhood functions, neural networks, and shortest paths).
+
+\medskip
+The second part focuses on showing how to use Rademacher averages and
+VC-dimension to develop sampling-based algorithms for data and graph mining
+problems. We start by presenting a generic recipe for developing such
+algorithms, which makes it easier to applying the techniques and perform the
+analysis. We then show a number of examples of application of this technique for
+different graph and data analysis problems, including network connectivity,
+shortest paths algorithms, betweenness centrality computation, and frequent
+pattern mining, and set covering. In this part of the tutorial, we will
+partially discuss research done by one or both the tutorial proposers. This is
+quite unavoidable, as we were among the firsts to explore the use of these
+techniques in data mining.  Naturally, a number of works by other researchers
+will also be discussed here and in the other parts of the tutorial.
+
+\medskip
+In the third part, we will focus on more advanced material, to encourage the
+audience to further explore the field of statistical learning theory, and to
+stimulate discussion and research on using the results from this field to
+develop data mining algorithms. Specifically, we will discuss: {\em 1.}
+PAC-Bayesian bounds, which shows a connection between the typical frequentist
+approach followed in statistical learning theory to the Bayesian probabilistic
+approach, {\em 2.} the connection between VC-dimension and the Minimum
+Description Length principle from information theory, and {\em 3.} a selection
+of the extensions of VC-dimension to real-valued or non-binary functions,
+including pseudodimension, Natarajan dimension, and fat-shattering dimension.
 
 \section{Website}\label{sec:website}
 We set up a mini-website (\url{http://bigdata.cs.brown.edu/vctutorial}) with
 links to the slides that we use for the presentation, and a bibliography of
-works about VC-dimension and/or Rademacher Averages, both from a theoretical
-point of view and for a more application-oriented one.
+theoretical and application-oriented works about VC-dimension and Rademacher
+Averages.
 
 \section{Acknowledgments}\label{sec:ack}
 This work was supported by NSF grant IIS-1247581 and NIH grant R01-CA180776.
 
+\bibliographystyle{abbrvnat}
+\bibliography{tutorialbib}
 \end{document}
