@@ -1,0 +1,122 @@
+\documentclass{sig-alternate-2013}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{dsfont}
+\usepackage{hyperref}
+\usepackage{morefloats}
+\usepackage[numbers,square,sort&compress]{natbib}
+\renewcommand{\refname}{References}
+\renewcommand{\bibsection}{\section{References}}
+\usepackage[ruled]{algorithm2e} % must be loaded after natbib
+\usepackage{subcaption}
+
+\newcommand\mycommfont[1]{\footnotesize{#1}}
+\SetCommentSty{mycommfont}
+\usepackage{mdwlist}
+
+%\usepackage[show]{notes-alt}
+\newcommand{\TODO}{{\bf \sf TODO: }}
+\newcommand{\RFC}{{\bf \sf FEEDBACK PLEASE: }}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\Sam}{{\cal S}}
+\newcommand{\Ds}{{\cal D}}
+\newcommand\Itm{{\cal I}}
+\newcommand\TOPK{\mathsf{TOPK}}
+\newcommand\FI{\mathsf{FI}}
+\newcommand\CI{\mathsf{CI}}
+\newcommand\AR{\mathsf{AR}}
+\newcommand\VC{\mathsf{VC}}
+\newcommand\EVC{\mathsf{EVC}}
+\newcommand\range{\mathcal{R}}
+\newcommand\expectation{\mathbb{E}}
+\newcommand\var{\mathrm{Var}}
+\newcommand\CPP{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}11}
+\newcommand\tid{\mathsf{tid}}
+\newcommand\indicator{\mathds{1}}
+\newcommand\lgi{\mathsf{lgi}}
+
+\newcommand{\spara}[1]{\smallskip\noindent{\bf #1.}}
+\newcommand{\para}[1]{\noindent{\bf #1.}}
+
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{fact}{Fact}
+\newtheorem{claim}{Claim}
+
+%\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\begin{document}
+
+\newfont{\mycrnotice}{ptmr8t at 7pt}
+\newfont{\myconfname}{ptmri8t at 7pt}
+\let\crnotice\mycrnotice%
+\let\confname\myconfname%
+
+\CopyrightYear{2015}
+\permission{Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from Permissions@acm.org.}
+\conferenceinfo{KDD'15,}{August 10-13, 2015, Sydney, NSW, Australia.}
+\copyrightetc{\copyright~2015 ACM. ISBN \the\acmcopyr}
+\crdata{978-1-4503-3664-2/15/08\ ...\$15.00.\\
+DOI: http://dx.doi.org/10.1145/FIXME
+}
+
+\clubpenalty=10000
+\widowpenalty = 10000
+
+\numberofauthors{2}
+
+\title{Mining Frequent Itemsets through Progressive Sampling with Rademacher
+Averages}
+
+\author{
+\alignauthor
+Matteo Riondato\\
+       \affaddr{Dept.~of Computer Science}\\
+       \affaddr{Brown University}\\
+       \affaddr{Providence, RI 02912}\\
+       \email{matteo@cs.brown.edu}
+\alignauthor
+Eli Upfal\\
+       \affaddr{Dept.~of Computer Science}\\
+       \affaddr{Brown University}\\
+       \affaddr{Providence, RI 02912}\\
+       \email{eli@cs.brown.edu}
+}
+\date{\today}
+
+\maketitle
+
+\begin{abstract}
+	BLA
+\end{abstract}
+
+\category{H.2.8}{Database Management}{Database Applications}[Data
+mining]
+\category{G.3}{Probability and Statistics}[Probabilistic algorithms (including
+Monte Carlo)]
+
+\keywords{Betweenness Centrality; Frequent Itemsets; Graph
+Mining; Pattern Mining; Randomized Algorithms; Tutorial}
+
+\section{Introduction}\label{introduction}
+
+\section{Fundamental concepts}\label{sec:fundamentals}
+
+\section{Outline}\label{sec:outline}
+
+\section{Website}\label{sec:website}
+We set up a mini-website (\url{http://bigdata.cs.brown.edu/vctutorial}) with
+links to the slides that we use for the presentation, and a bibliography of
+works about VC-dimension and/or Rademacher Averages, both from a theoretical
+point of view and for a more application-oriented one.
+
+\section{Acknowledgments}\label{sec:ack}
+This work was supported by NSF grant IIS-1247581 and NIH grant R01-CA180776.
+
+\end{document}

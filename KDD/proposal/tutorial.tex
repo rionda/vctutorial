@@ -1,0 +1,266 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[numbers,square,sort&compress]{natbib}
+\usepackage{hyperref}
+\usepackage{mdwlist}
+
+\setlength{\bibsep}{0pt plus 0.3ex}
+
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+
+\title{VC-Dimension and Rademacher Averages:\\From Statistical Learning Theory to
+	Sampling Algorithms \\ {\large -- Proposal for a KDD tutorial -- }}
+\author{Matteo Riondato \qquad Eli Upfal \\ Department of Computer
+	Science -- Brown University \\
+	\textsf{\{matteo,eli\}@cs.brown.edu}}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    %Abstract (up to 150 words)
+	\emph{Rademacher Averages} and the \emph{Vapnik-Chervonenkis dimension} are fundamental
+concepts from statistical learning theory. They allow to study simultaneous deviation bounds
+of empirical averages from their expectations for classes of functions, by
+considering properties of the problem, of the dataset, and of the
+sampling process. In this tutorial, we survey the use of Rademacher Averages and
+the VC-dimension for developing sampling-based algorithms for graph analysis and
+pattern mining. We start from their theoretical foundations at the core of
+machine learning, then show a generic recipe for formulating data mining
+problems in a way that allows using these concepts in the analysis of efficient
+randomized algorithms for those problems. Finally, we show examples of the
+application of the recipe to graph problems (connectivity, shortest paths,
+betweenness centrality) and pattern mining. Our goal is to expose the usefulness
+of these techniques for the data mining researcher, and to encourage research in
+the area.
+\end{abstract}
+
+\section*{Introduction}
+\emph{Random sampling} is a natural technique to speed up the execution of
+algorithms on very large datasets. The results obtained by analyzing only a
+random sample of the dataset are an approximation of the exact solution.  When
+only a single value must be computed, the trade-off between the size of the
+sample and the accuracy of the approximation can be studied through
+probabilistic bounds (e.g., the Chernoff-Hoeffding bounds) for the deviation of
+the quantity of interest in the sample from its exact value in the dataset. In
+many classical data mining problems, the number of quantities of interest can be
+extremely large (e.g., betweenness centrality requires to compute one quantity
+for each node in a graph). In these cases, \emph{uniform} (i.e.,
+\emph{simultaneous}) bounds to the deviations of all quantities are needed.
+Classical techniques like the Union bound, are insufficient because excessively
+loose due to their worst-case assumptions that do not hold in many data mining
+problems. \emph{Rademacher Averages} and the \emph{Vapnik-Chervonenkis dimension} have
+been developed to overcome this issue: they obtain much stricter uniform
+deviation bounds by taking into account the nature of the problem and properties
+of the dataset and of the sampling process. They have been used with success in
+the analysis of sampling algorithms for data and graph analysis problems on very
+large datasets.
+
+\section*{Target Audience and Prerequisites}
+%Proposals must clearly identify the intended audience for the tutorial (e.g.,
+%novice users of statistical techniques, or expert researchers in text mining).
+%What background will be required of the audience? Why is this topic
+%important/interesting to the KDD community? What is the benefit to
+%participants?
+The target audience of our tutorial are data mining and machine learning
+researchers with an interest in modern statistics and in effective use of data
+through the application of powerful theoretical results. Researchers whose focus
+is in pattern mining and graph mining should be particularly interested, as should
+the part of the audience with an interest in the theory of machine learning. In
+designing our tutorial we effectively strived in strengthen the connection
+between these fields: we start from theoretical concepts and results that arise
+in the classical learning context of classification and show how they can be
+used to develop practical efficient algorithms for important data mining
+problems. For the attending machine learning researchers, it would be a chance
+to be exposed to recent theoretical material in their field that has only
+recently started to be organized in books~\citep{MohriRT12,ShalevSBD14}, and see
+how it can be applied outside machine learning. At the same time, the part of
+the audience more interested in data mining can learn about techniques from the
+neighbor field of machine learning that can be used to develop algorithms for
+their favorite knowledge discovery problems. For these reasons, we believe that
+our tutorial can be of great interest to most KDD attendees.
+
+We do not require or assume that any specific existing knowledge from the
+audience. The tutorial is designed for an audience of computer scientists who
+have a general idea of the problems and challenges in data mining and a basic
+understanding of probability. We believe that any advanced undergraduate student
+in computer science would be able to productively follow our tutorial, and we
+will actively engage with the audience to adapt our pace and our presentation
+style to ensure that every attendee can benefit from our tutorial.
+
+\section*{Tutorial Content and Outline}
+%Outline of the tutorial. Enough material should be included to provide a sense
+%of both the scope of material to be covered and the depth to which it will be
+%covered. The more details that can be provided, the better (up to and including
+%links to the actual slides). Note that the tutors should NOT focus exclusively
+%on their own research results. A KDD tutorial is not meant to be a forum for
+%promoting one's research or product.
+
+
+We plan for a three-hours tutorial. We start with a short introduction
+about the use of random sampling in data mining, discussing its advantages and
+the challenges for the algorithm designer. The goal is to lay forward the key
+questions that will be answered in the rest of the tutorial. In particular, we
+introduce the key problem of learning, known as the Glivenko-Cantelli problem
+for classes of functions, and then show the limitations of the Union bound in
+solving this problem and ask how to overcome them in the settings arising from
+using sampling for data mining problems.
+
+\medskip
+The theoretical foundations are presented in the first part, where we introduce
+the Rademacher Average and the VC-dimension, showing how they allow to answer
+the questions posed in the introduction, and how they are related to each other.
+We then focus on computing, estimating, and bounding these quantities, which is
+a key step in the process of using them to develop algorithms. We show a number
+of basic examples of classes of functions with finite and infinite VC-dimension
+and discuss different techniques for developing analytical bounds and empirical
+estimations. The examples will range from toy examples to understand the
+concepts (e.g., axis-aligned rectangles, half-spaces, and sinusoidal functions)
+to much more complex examples that are presented in research papers (e.g.,
+graph neighborhood functions, neural networks, and shortest paths).
+
+\medskip
+The second part focuses on showing how to use Rademacher averages and
+VC-dimension to develop sampling-based algorithms for data and graph mining
+problems. We start by presenting a generic recipe for developing such
+algorithms, which makes it easier to applying the techniques and perform the
+analysis. We then show a number of examples of application of this technique for
+different graph and data analysis problems, including network connectivity,
+shortest paths algorithms, betweenness centrality computation, and frequent
+pattern mining, and set covering. In this part of the tutorial, we will
+partially discuss research done by one or both the tutorial proposers. This is
+quite unavoidable, as we were among the firsts to explore the use of these
+techniques in data mining.  Naturally, a number of works by other researchers
+will also be discussed here and in the other parts of the tutorial.
+
+\medskip
+In the third part, we will focus on more advanced material, to encourage the
+audience to further explore the field of statistical learning theory, and to
+stimulate discussion and research on using the results from this field to
+develop data mining algorithms. Specifically, we will discuss: {\em 1.} PAC-Bayesian bounds, which shows a connection between the typical frequentist
+approach followed in statistical learning theory to the Bayesian probabilistic
+approach, {\em 2.} the connection between VC-dimension and the Minimum
+Description Length principle from information theory, and {\em 3.} a selection
+of the extensions of VC-dimension to real-valued or non-binary functions,
+including pseudodimension, Natarajan dimension, and fat-shattering dimension.
+
+\medskip
+The following is a preliminary outline of the tutorial.
+
+\begin{enumerate*}
+	\item Introduction and Theoretical Foundations (1 hour)
+		\begin{enumerate*}
+			\item Sampling and Data Mining: a happy marriage?
+			\item The Glivenko-Cantelli problem: uniform convergence of
+				classes of functions~\citep{Vapnik99}
+			\item Beyond the Union Bound: Rademacher
+				averages~\citep{Koltchinskii01} and the Vapnik-Chervonenkis
+				dimension~\citep{VapnikC71}. The sampling theorems~\citep{AlonS08}
+			\item Computing the VC-dimension is hard~\citep{PapadimitriouY96}.
+				Estimating the VC-dimension~\citep{VapnikLLC94,ShaoCL00}.
+				Bounding the VC-dimension: axis-aligned rectangles, sine functions,
+				paths and stars in a graph~\citep{KranakisKRUW97}
+		\end{enumerate*}
+	\item Applications to Graph and Pattern Mining (1 hour and 30 minutes)
+		\begin{enumerate*}
+			\item A generic recipe for sampling-based data mining algorithms
+			\item Applications to Graph Mining: identifying network
+				disruption~\citep{KleinbergSS08}, shortest path
+				algorithms~\citep{AbrahamDFGW11}, betweenness centrality~\citep{RiondatoK14}
+			\item Applications to Pattern Mining: static and progressive
+				sampling algorithms for frequent itemsets~\citep{RiondatoU14,RiondatoU15-ext}
+			\item Other applications: set covering~\citep{BronnimannG94}
+		\end{enumerate*}
+	\item Recent developments and advanced topics (30 minutes)
+		\begin{enumerate*}
+			\item PAC-Bayesian bounds~\citep{BoucheronBL05,ShalevSBD14}
+			\item Statistical Risk Minimization and the connection with the Minimum
+				Description Length principle~\citep{Vapnik99}
+			\item Beyond binary functions: pseudodimension~\citep{Pollard1984}, fat-shattering
+				dimension~\citep{KearnsS90}, and related measures~\citep{MohriRT12}
+		\end{enumerate*}
+\end{enumerate*}
+
+\section*{Time Plan for Tutorial Materials Preparation}
+We plan to create a mini-website for the tutorial at
+\url{http://bigdata.cs.brown.edu/vctutorial/}. The website will contain the
+abstract of the tutorial, a more detailed outline with short a description of
+each item of the outline, a full list of references complete with links to
+electronic editions, and naturally the slides used in the tutorial. A
+preliminary version of the website will be available 15 days after the tutorial
+is accepted. We plan to work on it and enrich the contents continuously. A
+preliminary version of the slides will be available 30 days before the
+conference, or in any case by any deadline given to us by the conference
+organizers, and the final version will be available 15 days before the
+conference.
+
+\section*{Tutors}
+This tutorial is developed by Matteo Riondato and Eli Upfal.
+
+\medskip
+\noindent\textsc{Matteo Riondato} is a postdoctoral research associate at Brown
+University, USA, supervised by Prof.~Eli Upfal. He received his Ph.D.~from Brown
+in May 2014, with a dissertation on sampling-based randomized algorithms for
+data analytics, which received the Best Student Poster Award at SIAM SDM 2014.
+He presented a nectar talk about modern sampling algorithms at ECML PKDD 2014.
+His research focuses on exploiting theoretical results for practical algorithms
+in pattern and graph mining.
+
+\medskip
+\noindent\textsc{Eli Upfal} is a professor of computer science at Brown
+University, where he was also the department chair from 2002 to 2007. Prior to
+joining Brown in 1998, he was a researcher and project manager at the IBM
+Almaden Research Center in California, and a professor of Applied Mathematics
+and Computer Science at the Weizmann Institute of Science in Israel. Upfal's
+research focuses on the design and analysis of algorithms. In particular he is
+interested in randomized algorithms, probabilistic analysis of algorithms, and
+computational statistics, with applications ranging from combinatorial and
+stochastic optimization to routing and communication networks, computational
+biology, and computational finance. Upfal is a fellow of the IEEE and the
+Association for Computing Machinery (ACM). He received the IBM Outstanding
+Innovation Award, and the IBM Research Division Award. His work at Brown has
+been funded in part by the National Science Foundation (NSF), the Defense
+Advanced Research Projects Agency (DARPA), the Office of Naval Research (ONR),
+and the National Institute of Health (NIH). He is co-author of a popular
+textbook ``Probability and Computing: Randomized Algorithms and Probabilistic
+Analysis'' (with M. Mitzenmacher, Cambridge University Press 2005).
+
+\subsection*{Contact Information}
+Matteo Riondato and Eli Upfal
+
+\textsf{\{matteo,eli\}@cs.brown.edu}
+
+Box 1910, 115 Waterman Street, Providence, RI 02912, USA
+
+Tel.: +14018631000
+
+\section*{Previous Venues and Similar Tutorials}
+The tutorial was never presented before. Matteo Riondato gave a nectar
+talk with limited overlap with the tutorial content at ECML PKDD
+2014~\citep{Riondato14}. The tutorial we propose is much richer in content and
+more structured in its organization.
+
+A tutorial on sampling, but \emph{not covering any of the material in our proposed
+content}, was presented at ACM KDD 2014~\citep{CormodeD14}. It can be seen as
+complementary to ours, introducing different techniques for different
+applications (mostly in streaming settings). We believe that the fact that a
+tutorial on sampling was presented last year at KDD reinforces the fact that
+machine learning and data mining researchers should be interested in
+sampling-related techniques. Moreover VC-dimension can be used for much more
+than sampling (for example, for computing set coverings). We believe that data
+mining research can greatly benefit from the rich theory, techniques, and tools
+developed in the context of statistical learning. This tutorial aims to spread
+the knowledge of these concepts to the wider data mining community. This goal
+sets this tutorial apart from the KDD 2014 sampling tutorial.
+
+\input{biblio}
+%\bibliographystyle{abbrvnat}
+%\bibliography{tutorialbib}
+\end{document}
