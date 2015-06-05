@@ -164,27 +164,31 @@ mining problem, we then introduce the key problem of learning, known as the
 which clarifies the strong connection with the area of statistical learning
 theory.
 
-\paragraph*{First Part: Theoretical Foundations} 
+\paragraph*{First Part: Theoretical Foundations}
 The theoretical foundations are presented in the first part, where we introduce
 the Rademacher Averages~\citep{BoucheronBL05,Koltchinskii01}  and the
 VC-dimension~\citep{VapnikC71}, showing how they allow to answer the questions
-posed in the introduction, and how they are related to each other.  We then
-focus on computing, estimating, and bounding these quantities, which is a key
+posed in the introduction, and how they are related to each other. In
+particular, we show the key theorems that allow to compute an upper bound to the
+sample size sufficient to obtain a high-quality approximation of the quantities
+of interest, uniformly. The bounds depend linearly on the Rademacher averages
+and on the VC-dimension. We then focus on computing, estimating, and bounding
+the Rademacher averages and the VC-dimension, which is a key
 step in the process of using them to develop algorithms. We show a number of
 basic examples of classes of functions with finite and infinite VC-dimension and
 discuss different techniques for developing analytical bounds and empirical
-estimations. The examples will range from toy examples to understand the
-concepts (e.g., axis-aligned rectangles, half-spaces, and sinusoidal functions)
-to much more complex examples that are presented in research papers (e.g., graph
-neighborhood functions, neural networks~\citep{AnthonyB99}, and shortest
+estimations. The examples will range from toy examples (e.g., axis-aligned
+rectangles, half-spaces, and sinusoidal functions) to much more complex
+instances that are presented in research papers (e.g., graph neighborhood
+functions, neural networks~\citep{AnthonyB99}, and shortest
 paths~\citep{AbrahamDFGW11}).
 
 \paragraph*{Second Part: Applications}
-The second part focuses on showing how to use
-Rademacher averages and VC-dimension to develop sampling-based algorithms for
-data and graph mining problems. We start by presenting a generic recipe for
-developing such algorithms, which makes it easier to applying the techniques and
-perform the analysis. We then show a number of examples of application of this
+The second part focuses on showing how to use Rademacher averages and
+VC-dimension to develop sampling-based algorithms for data and graph mining
+problems. We start by presenting a generic recipe for developing such
+algorithms, which eases the application of the techniques and the analysis of
+the algorithms. We then show a number of examples of application of this
 technique for different graph and data analysis problems, including network
 connectivity~\citep{KleinbergSS08}, shortest paths
 algorithms~\citep{AbrahamDFGW11}, betweenness centrality
@@ -198,10 +202,11 @@ statistical learning theory, and to stimulate discussion and research on using
 the results from this field to develop data mining algorithms. Specifically, we
 will discuss: PAC-Bayesian bounds~\citep{BoucheronBL05,ShalevSBD14}, which show
 a connection between the typical frequentist approach followed in statistical
-learning theory to the Bayesian probabilistic approach, and a selection of the
+learning theory to the Bayesian probabilistic approach and may be useful for
+data mining algorithms on uncertain or probabilistic data, and a selection of the
 extensions of VC-dimension to real-valued or non-binary functions, including
 pseudodimension~\citep{Pollard84}, Natarajan dimension, and fat-shattering
-dimension.
+dimension~\citep{KearnsS90}.
 
 \section{Website}\label{sec:website}
 We set up a mini-website (\url{http://bigdata.cs.brown.edu/vctutorial}) with
@@ -260,6 +265,11 @@ W.~Hoeffding.
 \newblock Probability inequalities for sums of bounded random variables.
 \newblock \emph{J.~American Statistical Assoc.}, 58\penalty0 (301):\penalty0
   13--30, 1963.
+
+\bibitem[Kearns and Schapire(1990)]{KearnsS90}
+M.~J. Kearns and R.~E. Schapire.
+\newblock Efficient distribution-free learning of probabilistic concepts.
+\newblock IEEE FOCS'90, 1990.
 
 \bibitem[Kleinberg et~al.(2008)Kleinberg, Sandler, and Slivkins]{KleinbergSS08}
 J.~M. Kleinberg, M.~Sandler, and A.~Slivkins.
