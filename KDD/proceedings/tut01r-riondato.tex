@@ -96,17 +96,17 @@ Eli Upfal\\
 	\emph{Rademacher Averages} and the \emph{Vapnik-Chervonenkis dimension} are
 	fundamental concepts from statistical learning theory. They allow to study
 	simultaneous deviation bounds of empirical averages from their expectations
-	for classes of functions, by considering properties of the problem, of the
-	dataset, and of the sampling process. In this tutorial, we survey the use of
-	Rademacher Averages and the VC-dimension in sampling-based algorithms for
-	graph analysis and pattern mining. We start from their theoretical
-	foundations at the core of machine learning, then show a generic recipe for
-	formulating data mining problems in a way that allows using these concepts
-	in the analysis of efficient randomized algorithms for those problems.
-	Finally, we show examples of the application of the recipe to graph problems
-	(connectivity, shortest paths, betweenness centrality) and pattern mining.
-	Our goal is to expose the usefulness of these techniques for the data mining
-	researcher, and to encourage research in the area.
+	for classes of functions, by considering properties of the functions, of
+	their domain (the dataset), and of the sampling process. In this tutorial,
+	we survey the use of Rademacher Averages and the VC-dimension in
+	sampling-based algorithms for graph analysis and pattern mining. We start
+	from their theoretical foundations at the core of machine learning, then
+	show a generic recipe for formulating data mining problems in a way that
+	allows to use these concepts in efficient randomized algorithms for those
+	problems. Finally, we show examples of the application of the recipe to
+	graph problems (connectivity, shortest paths, betweenness centrality) and
+	pattern mining.  Our goal is to expose the usefulness of these techniques
+	for the data mining researcher, and to encourage research in the area.
 \end{abstract}
 
 \category{H.2.8}{Database Management}{Database Applications}[Data
@@ -123,71 +123,85 @@ algorithms on very large datasets~\citep{CormodeD14}. The results obtained by
 analyzing only a random sample of the dataset are an approximation of the exact
 solution.  When only a single value must be computed, the trade-off between the
 size of the sample and the accuracy of the approximation can be studied through
-probabilistic bounds (e.g., the Chernoff-Hoeffding
-bounds~\citep{Hoeffding63}) for the deviation of the quantity of interest in
-the sample from its exact value in the dataset. In many classical data mining
-problems, the number of quantities of interest can be extremely large (e.g.,
-betweenness centrality requires to compute one quantity for each node in a
-graph~\citep{Brandes01,RiondatoK14}). In these cases, \emph{uniform} (i.e.,
-\emph{simultaneous}) bounds to the deviations of all quantities are needed.
-Classical techniques like the Union bound~\citep{MitzenmacherU05}, are
+probabilistic bounds for the deviation of the quantity of interest in
+the sample from its exact value in the dataset, e.g., the Chernoff-Hoeffding
+bounds~\citep{Hoeffding63}. In many data mining problems, the number of
+quantities of interest can be extremely large (e.g., betweenness centrality
+requires to compute one quantity for each node in a
+graph~\citep{Brandes01,RiondatoK14}, and Frequent Pattern Mining requires the
+computation of a potentially exponential number of quantities). In these cases,
+\emph{uniform} (i.e., \emph{simultaneous}) bounds to the deviations of all
+quantities are needed in order to have good approximations of all the values of
+interest. Classical techniques like the Union bound~\citep{MitzenmacherU05} are
 insufficient because excessively loose due to their worst-case assumptions that
-do not hold in many data mining problems. \emph{Rademacher
+do not hold in many data mining problems, e.g., the assumption that the
+quantities of interest are independent from each other. \emph{Rademacher
 Averages}~\citep{BoucheronBL05} and the \emph{Vapnik-Chervonenkis
-dimension}~\citep{Vapnik99} have been developed to overcome this issue: they
-obtain much stricter uniform deviation bounds by taking into account the nature
-of the problem and properties of the dataset and of the sampling process. They
-have been used with success in the analysis of sampling algorithms for data and
-graph analysis problems on very large
-datasets~\citep{RiondatoU14,RiondatoU15,RiondatoK14,RiondatoV14,XXX}.
+dimension}~\citep{Vapnik99} have been developed by the statistical learning
+theory community to study the (rate of) convergence of the empirical risk of a
+learned function to its expectation. One of the goals of this tutorial is to
+show that these techniques are very flexible and powerful and their field of use
+is much broader. In particular, they overcome the weakness of the Union bound:
+they obtain much stricter uniform deviation bounds by taking into account the
+nature of the problem (i.e., of the quantities of interest) and properties of
+the dataset and of the sampling process. They have been used with success in
+the analysis of sampling algorithms for data and graph analysis problems on very
+large
+datasets~\citep{RiondatoU14,RiondatoU15,RiondatoK14,RiondatoV14,AbrahamDFGW11,KleinbergSS08,BronnimannG95}.
 
 \section{Outline}\label{sec:outline}
-We start with a short introduction about the use of random sampling in data
-mining, discussing its advantages and the challenges for the algorithm designer.
-The goal is to lay forward the key questions that will be answered in the rest
-of the tutorial. In particular, we introduce the key problem of learning, known
-as the Glivenko-Cantelli problem for classes of functions, and then show the
-limitations of the Union bound in solving this problem and ask how to overcome
-them in the settings arising from using sampling for data mining problems.
+The tutorial is structured as follows.
 
-\medskip
+{\bf Introduction.} We start with a short introduction about the use of random
+sampling in data mining, discussing its advantages and the challenges for the
+algorithm designer.  The goal is to lay forward the key questions that will be
+answered in the rest of the tutorial. In particular, we start with an example
+involving Frequent Itemset Mining through
+sampling~\citep{RiondatoU14,RiondatoU15}, showing the limitations of the Union
+bound in solving this problem. By generalizing our settings to general data
+mining problem, we then introduce the key problem of learning, known as the
+\emph{Glivenko-Cantelli problem for classes of functions}~\citep{Vapnik99},
+which clarifies the strong connection with the area of statistical learning
+theory.
+
+\paragraph*{First Part: Theoretical Foundations} 
 The theoretical foundations are presented in the first part, where we introduce
-the Rademacher Average and the VC-dimension, showing how they allow to answer
-the questions posed in the introduction, and how they are related to each other.
-We then focus on computing, estimating, and bounding these quantities, which is
-a key step in the process of using them to develop algorithms. We show a number
-of basic examples of classes of functions with finite and infinite VC-dimension
-and discuss different techniques for developing analytical bounds and empirical
+the Rademacher Averages~\citep{BoucheronBL05,Koltchinskii01}  and the
+VC-dimension~\citep{VapnikC71}, showing how they allow to answer the questions
+posed in the introduction, and how they are related to each other.  We then
+focus on computing, estimating, and bounding these quantities, which is a key
+step in the process of using them to develop algorithms. We show a number of
+basic examples of classes of functions with finite and infinite VC-dimension and
+discuss different techniques for developing analytical bounds and empirical
 estimations. The examples will range from toy examples to understand the
 concepts (e.g., axis-aligned rectangles, half-spaces, and sinusoidal functions)
-to much more complex examples that are presented in research papers (e.g.,
-graph neighborhood functions, neural networks, and shortest paths).
+to much more complex examples that are presented in research papers (e.g., graph
+neighborhood functions, neural networks~\citep{AnthonyB99}, and shortest
+paths~\citep{AbrahamDFGW11}).
 
-\medskip
-The second part focuses on showing how to use Rademacher averages and
-VC-dimension to develop sampling-based algorithms for data and graph mining
-problems. We start by presenting a generic recipe for developing such
-algorithms, which makes it easier to applying the techniques and perform the
-analysis. We then show a number of examples of application of this technique for
-different graph and data analysis problems, including network connectivity,
-shortest paths algorithms, betweenness centrality computation, and frequent
-pattern mining, and set covering. In this part of the tutorial, we will
-partially discuss research done by one or both the tutorial proposers. This is
-quite unavoidable, as we were among the firsts to explore the use of these
-techniques in data mining.  Naturally, a number of works by other researchers
-will also be discussed here and in the other parts of the tutorial.
+\paragraph*{Second Part: Applications}
+The second part focuses on showing how to use
+Rademacher averages and VC-dimension to develop sampling-based algorithms for
+data and graph mining problems. We start by presenting a generic recipe for
+developing such algorithms, which makes it easier to applying the techniques and
+perform the analysis. We then show a number of examples of application of this
+technique for different graph and data analysis problems, including network
+connectivity~\citep{KleinbergSS08}, shortest paths
+algorithms~\citep{AbrahamDFGW11}, betweenness centrality
+computation~\citep{RiondatoK14}, and frequent pattern
+mining~\citep{RiondatoU14,RiondatoV14,RiondatoU15}, and set
+covering~\citep{BronnimannG95}.
 
-\medskip
-In the third part, we will focus on more advanced material, to encourage the
-audience to further explore the field of statistical learning theory, and to
-stimulate discussion and research on using the results from this field to
-develop data mining algorithms. Specifically, we will discuss: {\em 1.}
-PAC-Bayesian bounds, which shows a connection between the typical frequentist
-approach followed in statistical learning theory to the Bayesian probabilistic
-approach, {\em 2.} the connection between VC-dimension and the Minimum
-Description Length principle from information theory, and {\em 3.} a selection
-of the extensions of VC-dimension to real-valued or non-binary functions,
-including pseudodimension, Natarajan dimension, and fat-shattering dimension.
+\paragraph*{Third part: Advanced Material} In the third part, we will focus on more
+advanced material, to encourage the audience to further explore the field of
+statistical learning theory, and to stimulate discussion and research on using
+the results from this field to develop data mining algorithms. Specifically, we
+will discuss: PAC-Bayesian bounds~\citep{BoucheronBL05,ShalevSBD14}, which show
+a connection between the typical frequentist approach followed in statistical
+learning theory to the Bayesian probabilistic approach, and a selection of the
+extensions of VC-dimension to real-valued or non-binary functions, including
+pseudodimension~\citep{Pollard84}, Natarajan dimension, and fat-shattering
+dimension.
 
 \section{Website}\label{sec:website}
 We set up a mini-website (\url{http://bigdata.cs.brown.edu/vctutorial}) with
@@ -198,6 +212,116 @@ Averages.
 \section{Acknowledgments}\label{sec:ack}
 This work was supported by NSF grant IIS-1247581 and NIH grant R01-CA180776.
 
-\bibliographystyle{abbrvnat}
-\bibliography{tutorialbib}
+%\bibliographystyle{abbrvnat}
+%\bibliography{tutorialbib}
+%\iffalse
+\begin{thebibliography}{17}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abraham et~al.(2011)Abraham, Delling, Fiat, Goldberg, and
+  Werneck]{AbrahamDFGW11}
+I.~Abraham, D.~Delling, A.~Fiat, A.~V. Goldberg, and R.~F. Werneck.
+\newblock {VC}-dimension and shortest path algorithms.
+\newblock ICALP'11, 2011.
+
+\bibitem[Anthony and Bartlett(1999)]{AnthonyB99}
+M.~Anthony and P.~L. Bartlett.
+\newblock \emph{Neural Network Learning - Theoretical Foundations}.
+\newblock Cambridge University Press, 1999.
+
+\bibitem[Boucheron et~al.(2005)Boucheron, Bousquet, and Lugosi]{BoucheronBL05}
+S.~Boucheron, O.~Bousquet, and G.~Lugosi.
+\newblock Theory of classification : A survey of some recent advances.
+\newblock \emph{{ESAIM}: Probability and Statistics}, 9:\penalty0 323--375,
+  2005.
+
+\bibitem[Brandes(2001)]{Brandes01}
+U.~Brandes.
+\newblock A faster algorithm for betweenness centrality.
+\newblock \emph{J. Math. Sociol.}, 25\penalty0 (2):\penalty0 163--177, 2001.
+
+\bibitem[Br{\"o}nnimann and Goodrich(1995)]{BronnimannG95}
+H.~Br{\"o}nnimann and M.~Goodrich.
+\newblock Almost optimal set covers in finite vc-dimension.
+\newblock \emph{Discrete \& Computational Geometry}, 14\penalty0 (1):\penalty0
+  463--479, 1995.
+
+\bibitem[Cormode and Duffield(2014)]{CormodeD14}
+G.~Cormode and N.~Duffield.
+\newblock Sampling for big data: A tutorial.
+\newblock ACM KDD'14, 2014.
+
+\bibitem[Hoeffding(1963)]{Hoeffding63}
+W.~Hoeffding.
+\newblock Probability inequalities for sums of bounded random variables.
+\newblock \emph{J.~American Statistical Assoc.}, 58\penalty0 (301):\penalty0
+  13--30, 1963.
+
+\bibitem[Kleinberg et~al.(2008)Kleinberg, Sandler, and Slivkins]{KleinbergSS08}
+J.~M. Kleinberg, M.~Sandler, and A.~Slivkins.
+\newblock Network failure detection and graph connectivity.
+\newblock \emph{SIAM J. Comput.}, 38\penalty0 (4):\penalty0 1330--1346, 2008.
+
+\bibitem[Koltchinskii(2001)]{Koltchinskii01}
+V.~Koltchinskii.
+\newblock Rademacher penalties and structural risk minimization.
+\newblock \emph{IEEE Trans.~Inf.~Theory}, 47\penalty0 (5):\penalty0 1902--1914,
+  July 2001.
+
+\bibitem[Mitzenmacher and Upfal(2005)]{MitzenmacherU05}
+M.~Mitzenmacher and E.~Upfal.
+\newblock \emph{Probability and Computing: Randomized Algorithms and
+  Probabilistic Analysis}.
+\newblock Cambridge University Press, 2005.
+
+\bibitem[Pollard(1984)]{Pollard84}
+D.~Pollard.
+\newblock \emph{Convergence of stochastic processes}.
+\newblock Springer-Verlag, 1984.
+
+\bibitem[Riondato and Kornaropoulos(2014)]{RiondatoK14}
+M.~Riondato and E.~M. Kornaropoulos.
+\newblock Fast approximation of betweenness centrality through sampling.
+\newblock ACM WSDM'14, 2014.
+
+\bibitem[Riondato and Upfal(2014)]{RiondatoU14}
+M.~Riondato and E.~Upfal.
+\newblock Efficient discovery of association rules and frequent itemsets
+  through sampling with tight performance guarantees.
+\newblock \emph{ACM Trans. Knowl. Disc. from Data}, 8\penalty0 (4):\penalty0
+  20, 2014.
+
+\bibitem[Riondato and Upfal(2015)]{RiondatoU15}
+M.~Riondato and E.~Upfal.
+\newblock Mining frequent itemsets through progressive sampling with rademacher
+  averages.
+\newblock ACM KDD'15.
+
+\bibitem[Riondato and Vandin(2014)]{RiondatoV14}
+M.~Riondato and F.~Vandin.
+\newblock Finding the true frequent itemsets.
+\newblock SIAM SDM'14.
+
+\bibitem[Shalev-Shwartz and Ben-David(2014)]{ShalevSBD14}
+S.~Shalev-Shwartz and S.~Ben-David.
+\newblock \emph{Understanding Machine Learning: From Theory to Algorithms}.
+\newblock Cambridge University Press, 2014.
+
+\bibitem[Vapnik(1999)]{Vapnik99}
+V.~N. Vapnik.
+\newblock \emph{The Nature of Statistical Learning Theory}.
+\newblock Springer-Verlag, 1999.
+
+\bibitem[Vapnik and Chervonenkis(1971)]{VapnikC71}
+V.~N. Vapnik and A.~J. Chervonenkis.
+\newblock On the uniform convergence of relative frequencies of events to their
+  probabilities.
+\newblock \emph{Theory of Probability and its Applications}, 16\penalty0
+  (2):\penalty0 264--280, 1971.
+\end{thebibliography}
+%\fi
 \end{document}
